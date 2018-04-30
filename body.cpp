@@ -1,4 +1,5 @@
 #include <iostream>
+#include "body.h"
 using namespace std;
 
 body::body(){
@@ -6,7 +7,7 @@ body::body(){
 }
 
 body::body(istream &is) {
-  is >> x >> y >> m >> velX >> velX >> accelX >> accelY;
+  is >> x >> y >> m >> velX >> velY >> accelX >> accelY;
 }
 
 body::body(long nx, long ny, long nm) {
@@ -16,12 +17,12 @@ body::body(long nx, long ny, long nm) {
   
 }
 
-long* body::getVel(){
+float* body::getVel(){
   float vel[2] = {velX, velY};
   return vel;
 }
 
-long* body::getAccel(){
+float* body::getAccel(){
   float accel[2] = {accelX, accelY};
   return accel;
 }
@@ -37,26 +38,30 @@ long body::distY(long ypos){
 long body::distance(long nx, long ny){
   int val1 = nx - x;
   int val2 = ny -y;
-  return (sqrt(val1*val1 + val2*val2);
+  return (sqrt(val1*val1 + val2*val2));
 }
 
 void body::display() {
   cout << "(x,y)= (" << x << "," << y << ")"<<endl;
   cout << "mass = " << m << endl;
-  cout << "(dx,dy)= (" << dx << "," << dy << ")"<<endl;
+  cout << "(dx,dy)= (" << velX << "," << velY << ")"<<endl;
 }
 
-void body::move() {
-  x+=dx;
-  y+=dy;
-}
-i
 void body::update() {
-  dx = accelX;
-  dy = accelY;
+  x+=velX; 
+  y+=velY;
+  velX+= accelX;
+  velY+= accelY;
 }
 
-void setAccel(float ax, float ay){
+void body::setAccel(float ax, float ay){
   accelX = ax;
   accelY = ay;
+}
+
+void body::gravity(body b){
+  float a1x = G * b.getMass() / distX(b.getX());
+  float a1y = G * b.getMass() / distY(b.getY());
+
+  setAccel(a1x,a1y); 
 }

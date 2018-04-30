@@ -5,6 +5,8 @@
 #include <math.h>
 using namespace std;
 
+#define G 6.673*pow(10,-11)
+
 class body {
   protected:
     //int id;//need this?
@@ -14,7 +16,7 @@ class body {
     float velX;
     float velY;
     float accelX;
-    float  accelY;
+    float accelY;
 
   public:
     body();
@@ -24,8 +26,8 @@ class body {
     long getX() { return x; }
     long getY() { return y; }
     long getMass() { return m; }
-    float getVel();
-    float getAccel();
+    float* getVel();
+    float* getAccel();
     
     long distX(long);
     long distY(long);
@@ -35,7 +37,7 @@ class body {
     void move();
     void update();
     void setAccel(float,float);
-    
+    void gravity(body); 
 };
 
 #endif //_body_

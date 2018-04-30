@@ -4,7 +4,7 @@
 bodygroup::bodygroup(){
   comX = NULL;
   comY = NULL;
-  total_mass = NULL;
+  total_mass = 0;
   num_bodies=0;
 }
 
@@ -54,4 +54,8 @@ void bodygroup::insert(const body& b){
   body* nb = b;
   total_mass+=nb->getMass();
   bodies.push_back(*b);
+}
+
+body& operator[](int n){
+  return bodies[i];
 }
