@@ -10,6 +10,16 @@ body::body(istream &is) {
   is >> x >> y >> m >> velX >> velY >> accelX >> accelY;
 }
 
+body::body(const body* b){
+  x = b->getX();
+  y = b->getY();
+  m = b->getMass();
+  velX = b->getVel()[0];
+  velY = b->getVel()[1];
+  accelX = b->getAccel()[0];
+  accelY = b->getAccel()[1];
+}
+
 body::body(long nx, long ny, long nm) {
   x = nx;
   y = ny;
