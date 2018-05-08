@@ -8,25 +8,27 @@
 
 class bodygroup{
   private:
-    vector<body> bodies;
+    body** bodies;
     float comX;
     float comY;
     float total_mass;
     int num_bodies;
 
+    body* minX, minY, maxX, maxY;
+
   public:
     bodygroup();
-    bodygroup(body**,int);
+    bodygroup(const bodygroup& rhs);
     bodygroup(ostream&);
-    
+    ~bodygroup();    
+
     float* getCOM();
-    float get_num_bodies() { return num_bodies; }
+    float getSize() { return num_bodies; }
 
     void updateCoM();
     void display();
-    void insert(const body&);
 
-    body operator[](int n);
+    body& operator[](int n);
         
 };
 

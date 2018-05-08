@@ -21,6 +21,7 @@ class body {
   public:
     body();
     body(istream &is);
+    body(const body*);
     body(long nx, long ny, long nm);
     
     long getX() { return x; }
