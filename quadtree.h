@@ -7,7 +7,7 @@ using namespace std;
 
 class quadtree{
   protected:
-    bool contains_body;
+    bool parent;
     body* contained;
 
     float theta;    
@@ -18,12 +18,12 @@ class quadtree{
     long double top, bottom;
 
   public:
-    quadtree();//idk if this will actually be used;
+    quadtree();
     quadtree(long double l, long double r, long double t, long double b, body* c);
     quadtree(bodygroup*);
     ~quadtree();
 
-    void insert(bodyi*);
+    void insert(body*);
     void insert(bodygroup*);
 
     long getLeft(){return left;}
@@ -31,9 +31,11 @@ class quadtree{
     long getTop() { return top;}
     long getBottom() { return bottom; }
 
-    float getTau() { return tau; }
-    void setTau(float t) { tau = t; }
+    float getTheta() { return tau; }
+    void setTheta(float t) { theta = t; }
 
-    bool isParent() { return contains_body; }
+    bool isParent() { return parent; }
+    int whichChild(body*);
 
+    void clear();    
 }

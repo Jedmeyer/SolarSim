@@ -24,11 +24,16 @@ class bodygroup{
 
     float* getCOM();
     float getSize() { return num_bodies; }
+    body* getMinX() { return minX; }
+    body* getMinY() { return minY; }
+    body* getMaxX() { return maxX; }
+    body* getMaxY() { return maxY; }
+   
 
     void updateCoM();
     void display();
 
-    body& operator[](int n);
+    body* operator[](int n);
         
 };
 

@@ -72,6 +72,6 @@ void bodygroup::display(){
   cout << "<--- end bodygroup --->" << endl;
 }
 
-body& operator[](int n){
+body* operator[](int n){
   return bodies[i];
 }
