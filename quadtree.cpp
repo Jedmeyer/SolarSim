@@ -51,7 +51,8 @@ void quadtree::clear(){
       continue;
     delete children[i];
     children[i] = NULL;
-  } 
+  }
+  delete[] comVals; 
 }
 
 void quadtree::insert(body* i){
@@ -111,4 +112,39 @@ int quadtree::whichChild(body* b){
   //so we want to return something that will generate a recognizable error.
   return -1;
  
+}
+
+void quadtree::updateComVals(){
+  comVals = new long double[3];
+  comVals[0] = comX; 
+  comVals[1] = comY; 
+  comVals[2] = total_mass;
+}
+
+long double* quadtree::calcCOM(){
+  total_mass = 0;
+  if(!parent && contained != NULL){
+    comX = contained->getX();
+    comY = contained->getY();
+    total_mass = contained->getMass();
+  }
+  else if(parent){
+    long double** recur = new long double*[4];
+    long double xTot = 0;
+    long double yTot = 0;
+    //I think this should work. However, with unexpected behavior,
+    //consider the fact that distance values may have to be reset
+    //based on the zones border values.
+    for(int i = 0; i < 4; i++){
+      recur[i] = children[i]->calcCOM();
+      xTot += recur[i][0]*recur[i][2];
+      yTot += recur[i][1]*recur[i][2];
+      total_mass += recur[i][2]; 
+    }
+    comX = xTot/total_mass;
+    comY = yTot/total_mass;
+    delete[] recur;
+  }
+  updateComVals();
+  return comVals;
 }
