@@ -20,7 +20,7 @@ class quadtree{
   public:
     quadtree();
     quadtree(long double l, long double r, long double t, long double b, body* c);
-    quadtree(bodygroup*);
+    //quadtree(const bodygroup&);//not working and I dont think we'll need it.
     ~quadtree();
 
     void insert(body*);
@@ -31,11 +31,13 @@ class quadtree{
     long getTop() { return top;}
     long getBottom() { return bottom; }
 
-    float getTheta() { return tau; }
+    float getTheta() { return theta; }
     void setTheta(float t) { theta = t; }
 
     bool isParent() { return parent; }
     int whichChild(body*);
+    quadtree* getChild(int index) { return children[index]; }
 
     void clear();    
-}
+};
+#endif //_quadtree_

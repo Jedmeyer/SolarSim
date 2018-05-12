@@ -17,10 +17,10 @@ quadtree::quadtree(long double l, long double r, long double t, long double b, b
   parent = false;
   children = NULL;
   theta = 1;
-  containted = c;
+  contained = c;
 }
 
-quadtree::quadtree(bodygroup* g){
+/*quadtree::quadtree(const bodygroup& g){
   if(g->getSize()==0)
     return;
   if(g==NULL)
@@ -33,17 +33,17 @@ quadtree::quadtree(bodygroup* g){
   bottom = g->getMaxY()->getY();
 
   insert(g);
-}
+}*/
 
 quadtree::~quadtree(){
   clear();
 }
 
-quadtree::clear(){
+void quadtree::clear(){
   parent = false;
   contained = NULL;
 
-  if(chilren==NULL)
+  if(children==NULL)
     return;
   
   for(int i = 0; i < 4; i++){
@@ -56,10 +56,12 @@ quadtree::clear(){
 
 void quadtree::insert(body* i){
   if(parent){
-    this->children[whichChild(i)].insert(i);
+    //cout << "is parent" << endl;
+    this->children[whichChild(i)]->insert(i);
   }
  
   else if(!parent && contained!=NULL){
+    //cout << "not parent and something inside" << endl;
     this->children = new quadtree*[4];
     long double midX = (this->left + this->right)/2.0;
     long double midY = (this->top + this->bottom)/2.0;
@@ -73,24 +75,25 @@ void quadtree::insert(body* i){
     this->children[3]->setTheta(theta);
    
     parent = true; 
-    this->children[whichChild(contained)].insert(contained);
+    this->children[whichChild(contained)]->insert(contained);
     contained = NULL;
-    children[whichChild(i)].insert(i);
+    children[whichChild(i)]->insert(i);
   } 
 
   else if(!parent && contained == NULL){
+    //cout << "not parent and nothing inside" << endl;
     contained = i;
   }
 }
 
 void quadtree::insert(bodygroup* g){
-  for(int i = 0; i < g.getSize(); i++)
-    this->insert(g[i]);  
+  for(int i = 0; i < g->getSize(); i++)
+    this->insert((*g)[i]);  
 }
 
 int quadtree::whichChild(body* b){
   long double xVal = b->getX();
-  long double yVal - b->getY();
+  long double yVal = b->getY();
   
   long double midX = (left + right)/2.0;
   long double midY = (top + bottom)/2.0;
@@ -103,4 +106,9 @@ int quadtree::whichChild(body* b){
     return 2;
   else if(xVal > midX && yVal < midY)
     return 3;
+
+  //if none of the if conditions have been called, something is wrong
+  //so we want to return something that will generate a recognizable error.
+  return -1;
+ 
 }
