@@ -18,6 +18,8 @@ class bodygroup{
     body* minY;
     body* maxX;
     body* maxY;
+    
+    bodygroup& operator=(const bodygroup&);    
 
   public:
     bodygroup();
@@ -38,6 +40,5 @@ class bodygroup{
     void display();
 
     body* operator[] (int n) const;
-    bodygroup& operator=(const bodygroup&);    
 };
 #endif //_bodygroup_

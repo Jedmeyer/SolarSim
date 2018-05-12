@@ -6,7 +6,7 @@ int main() {
   bodygroup b1;
   bodygroup b2(cin);
   bodygroup b3(b2);
-
+  cout << "here" << endl;
   b3.updateCoM();
   cout << b3.getCOMX() << endl;
 

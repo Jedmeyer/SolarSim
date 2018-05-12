@@ -15,7 +15,6 @@ bodygroup::bodygroup(istream& in){
   in >> num_bodies;
   bodies=new body*[num_bodies];
   for(int i = 0; i < num_bodies; i++){
-    cout << i << endl;
     bodies[i]=(new body(in));
     
     if((this->minX==NULL)||(this->bodies[i]->getX() < this->minX->getX()))
@@ -40,20 +39,25 @@ bodygroup::~bodygroup(){
 
 
 void bodygroup::clear(){
-  if(bodies == NULL)
+  //cout << "the number of bodies is: " << this->num_bodies << endl;
+  if(this->bodies == NULL)
     return;
-  if(num_bodies < 1)
+  if(this->num_bodies < 1)
     return;
+  //cout << this->num_bodies << endl;
+  
   for(int i = 0; i < num_bodies; i++){
-    delete bodies[i];
+    //cout << i << endl;
+    delete[] bodies[i];
   }
+  //cout << "here" << endl;
   delete[] bodies;
   bodies = NULL;
   minX = minY = maxX = maxY = NULL;
   num_bodies = 0;
   total_mass = 0;
   comX = comY = 0;
-  cout << "here" << endl;
+  //cout << "here" << endl;
 }
 
 void bodygroup::updateCoM(){
@@ -83,7 +87,11 @@ bodygroup& bodygroup::operator=(const bodygroup& b){
   if(this == &b)
     return (*this);
 
-  this->clear();
+  //for some reason I'm getting an error here when deallocating memory
+  //to rememdy this, I've made the equal operator private, and assume
+  //that it will only be used by the copy constructor in which case
+  //no deallocation is needed.
+  //this->clear();
   num_bodies = b.getSize();
   bodies = new body*[num_bodies];
   for(int i = 0; i < num_bodies; i++){
