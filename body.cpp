@@ -6,49 +6,46 @@ body::body(){
   x = y = m = velX = velY = accelX = accelY = 0; 
 }
 
-body::body(istream &is) {
-  is >> x >> y >> m >> velX >> velY >> accelX >> accelY;
+body::body(istream &is) {//assuming no starting acceleration
+  is >> x >> y >> m >> velX >> velY;
+  accelX = 0;
+  accelY = 0;
 }
 
 body::body(const body* b){
   x = b->getX();
   y = b->getY();
   m = b->getMass();
-  velX = b->getVel()[0];
-  velY = b->getVel()[1];
-  accelX = b->getAccel()[0];
-  accelY = b->getAccel()[1];
+  velX = b->getVelX();
+  velY = b->getVelY();
+  accelX = b->getAccelX();
+  accelY = b->getAccelY();
 }
 
-body::body(long nx, long ny, long nm) {
+body::body(long double nx, long double ny, long double nm) {
   x = nx;
   y = ny;
-  m = nm;
-  
+  m = nm;  
 }
 
-float* body::getVel(){
-  float vel[2] = {velX, velY};
-  return vel;
+long double body::distX(long double xpos){
+  return (abs((long double)xpos - x));
 }
 
-float* body::getAccel(){
-  float accel[2] = {accelX, accelY};
-  return accel;
+long double body::distY(long double ypos){
+  return (abs((long double)ypos - y));
 }
 
-long body::distX(long xpos){
-  return abs(xpos - x);
+long double body::distance(long double nx, long double ny){
+  long double val1 = nx - x;
+  long double val2 = ny -y;
+  return ((long double) sqrt((long double)val1*val1 + val2*val2));
 }
 
-long body::distY(long ypos){
-  return abs(ypos - y);
-}
-
-long body::distance(long nx, long ny){
-  int val1 = nx - x;
-  int val2 = ny -y;
-  return (sqrt(val1*val1 + val2*val2));
+long double body::distance(const body* b){
+  long double xdiff = abs(b->getX() - x);
+  long double ydiff = abs(b->getY() - y);
+  return (sqrt(xdiff*xdiff + ydiff*ydiff));
 }
 
 void body::display() {
@@ -64,14 +61,14 @@ void body::update() {
   velY+= accelY;
 }
 
-void body::setAccel(float ax, float ay){
+void body::setAccel(long double ax, long double ay){
   accelX = ax;
   accelY = ay;
 }
 
-void body::gravity(body b){
-  float a1x = G * b.getMass() / distX(b.getX());
-  float a1y = G * b.getMass() / distY(b.getY());
+void body::gravity(const body* b){
+  long double a1x = G * b->getMass() / distX(b->getX());
+  long double a1y = G * b->getMass() / distY(b->getY());
 
   setAccel(a1x,a1y); 
 }

@@ -7,7 +7,7 @@ bodygroupdriver.o: bodygroupdriver.cpp bodygroup.h body.h
 bodydriver: bodydriver.o body.o 
 	g++ -g -Wall -std=c++11 -o bodydriver bodydriver.o body.o
 
-bodygroup.o: bodygroup.o body.o body.h bodygroup.h
+bodygroup.o: body.o body.h bodygroup.h bodygroup.cpp
 	g++ -g -Wall -std=c++11 -c bodygroup.cpp
 
 bodydriver.o: bodydriver.cpp body.h
@@ -15,3 +15,6 @@ bodydriver.o: bodydriver.cpp body.h
 
 body.o: body.cpp body.h
 	g++ -g -Wall -std=c++11 -c body.cpp
+
+clean: 
+	rm -f *.o bodydriver bodygroupdriver
