@@ -7,7 +7,7 @@ quadtree::quadtree(){
   parent  = false;
   contained = NULL;
   children = NULL;
-  left = 0; right = 1920;
+  left = 0; right = 1080;
   top = 1080; bottom = 0;
 }
 
@@ -147,4 +147,25 @@ long double* quadtree::calcCOM(){
   }
   updateComVals();
   return comVals;
+}
+
+void quadtree::barnesHut(body* b){
+  if(contained == b)
+    return;
+  if(!parent && contained!=NULL){
+    b->gravity(contained);
+    return;
+  }
+  else if(getDim()/b->distance(comX,comY) < theta){
+    body temp(comX,comY,total_mass);
+    b->gravity(&temp);//acceleration is now updated 
+    return;
+  }
+  else {
+    for(int zone = 0; zone < 4; zone++){
+      if(!children[zone]->empty())
+        children[zone]->barnesHut(b);
+    }
+    return;
+  }
 }

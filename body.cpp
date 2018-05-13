@@ -26,6 +26,10 @@ body::body(long double nx, long double ny, long double nm) {
   x = nx;
   y = ny;
   m = nm;  
+  velX = 0;
+  velY = 0;
+  accelX = 0;
+  accelY = 0;
 }
 
 long double body::distX(long double xpos){
@@ -55,10 +59,12 @@ void body::display() {
 }
 
 void body::update() {
-  x+=velX; 
-  y+=velY;
-  velX+= accelX;
-  velY+= accelY;
+  x += velX; 
+  y += velY;
+  velX += accelX;
+  velY += accelY;
+  accelX = 0;
+  accelY = 0;
 }
 
 void body::setAccel(long double ax, long double ay){
@@ -67,8 +73,17 @@ void body::setAccel(long double ax, long double ay){
 }
 
 void body::gravity(const body* b){
-  long double a1x = G * b->getMass() / distX(b->getX());
-  long double a1y = G * b->getMass() / distY(b->getY());
+  long double r = distance(b);
+  long double a = G * b->getMass() / (r*r);
 
-  setAccel(a1x,a1y); 
+  //I believe this subtraction is in the correct order.
+  //However, with weird behavior check this.
+  long double xdiff = b->getX() - x;
+  long double ydiff = b->getY() - y;
+
+  long double ax = a*xdiff/r;
+  long double ay = a*ydiff/r;
+  
+  accelX += ax;
+  accelY += ay;
 }

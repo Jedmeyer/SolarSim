@@ -3,14 +3,28 @@
 using namespace std;
 
 int main(){
-  quadtree q1;
-  bodygroup b1(cin);
-  quadtree q2(10, 15, 15, 10, NULL);
+  
+  bodygroup bg(cin);
+  int time_steps = 2;
+  for(int i = 0; i < time_steps; i++){
+    quadtree q1;
+    bg.display();
+    cout << endl; 
+    q1.insert(&bg);
 
-  q1.insert(&b1);
-  q1.setTheta(2.0);
-
-  q1.calcCOM();
-
+    q1.calcCOM();
+    //this is where we parallelize
+    //update the acclerations of all bodies
+    for(int i = 0; i < bg.getSize(); i++){
+      q1.barnesHut(bg[i]);  
+    }
+    //once all accels are computed, then
+    //we can update positions
+    for(int i = 0; i < bg.getSize(); i++){
+      bg[i]->update();
+    }
+  }
+  bg.display();
+  
   return 0;
 }

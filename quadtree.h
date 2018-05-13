@@ -38,17 +38,22 @@ class quadtree{
 
     float getTheta() { return theta; }
     void setTheta(float t) { theta = t; }
+    
+    long double getDim() { return ((right-left) + (top-bottom))/2; }
 
     long double getComX() { return comX; }
     long double getComY() { return comY; }
     long double getMass() { return total_mass; }
     void updateComVals();
 
+    bool empty() { return (!parent && contained == NULL); }
     bool isParent() { return parent; }
     int whichChild(body*);
     quadtree* getChild(int index) { return children[index]; }
 
     long double* calcCOM();
-    void clear();    
+    void clear(); 
+
+    void barnesHut(body*);
 };
 #endif //_quadtree_

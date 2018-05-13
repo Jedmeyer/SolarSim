@@ -9,7 +9,6 @@ using namespace std;
 
 class body {
   protected:
-    //int id;//need this?
     long double x;
     long double y;
     long double m;
@@ -38,7 +37,6 @@ class body {
     long double distance(const body*);   
  
     void display();
-    void move();
     void update();
     void setAccel(long double, long double);
     void gravity(const body*); 
