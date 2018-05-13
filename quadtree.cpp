@@ -74,8 +74,7 @@ void quadtree::insert(body* i){
     this->children[2]->setTheta(theta);
     this->children[3] = new quadtree(midX,right,midY,bottom,NULL);
     this->children[3]->setTheta(theta);
-   
-    parent = true; 
+    parent = true;
     this->children[whichChild(contained)]->insert(contained);
     contained = NULL;
     children[whichChild(i)]->insert(i);
@@ -88,8 +87,10 @@ void quadtree::insert(body* i){
 }
 
 void quadtree::insert(bodygroup* g){
-  for(int i = 0; i < g->getSize(); i++)
+  for(int i = 0; i < g->getSize(); i++){
+    //cout << "i=" << i << endl;
     this->insert((*g)[i]);  
+  }
 }
 
 int quadtree::whichChild(body* b){
@@ -99,15 +100,15 @@ int quadtree::whichChild(body* b){
   long double midX = (left + right)/2.0;
   long double midY = (top + bottom)/2.0;
 
-  if(xVal > midX && yVal > midY)
+  if(xVal >= midX && yVal >= midY)
     return 0;
-  else if(xVal < midX && yVal > midY)
+  else if(xVal < midX && yVal >= midY)
     return 1;
   else if(xVal < midX && yVal < midY)
     return 2;
-  else if(xVal > midX && yVal < midY)
+  else if(xVal >= midX && yVal < midY)
     return 3;
-
+  cout << "whichChild returning -1" << endl;
   //if none of the if conditions have been called, something is wrong
   //so we want to return something that will generate a recognizable error.
   return -1;
