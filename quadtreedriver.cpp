@@ -5,7 +5,9 @@ using namespace std;
 int main(){
   
   bodygroup bg(cin);
-  int time_steps = 2;
+  //cout << "Number of time steps: ";
+  int time_steps = 100;
+  //cin >> time_steps;
   for(int i = 0; i < time_steps; i++){
     quadtree q1;
     bg.display();

@@ -56,6 +56,7 @@ void body::display() {
   cout << "(x,y)= (" << x << "," << y << ")"<<endl;
   cout << "mass = " << m << endl;
   cout << "(dx,dy)= (" << velX << "," << velY << ")"<<endl;
+  cout << endl;
 }
 
 void body::update() {

@@ -25,5 +25,8 @@ bodydriver.o: bodydriver.cpp body.h
 body.o: body.cpp body.h
 	g++ -g -Wall -std=c++11 -c body.cpp
 
+gen: gen.cpp
+	g++ -g -Wall -std=c++11 -o gen gen.cpp
+
 clean: 
 	rm -f *.o bodydriver bodygroupdriver quadtreedriver
