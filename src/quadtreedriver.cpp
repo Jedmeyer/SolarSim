@@ -18,7 +18,7 @@ int main(){
     cout << "step " << i << " complete." << endl;
     start_timer();
     quadtree q1;
-    q1.setTheta(1);
+    q1.setTheta(1.5);
     q1.insert(&bg);
     avg_constr+=elapsed_time();
     cout << "quadtree built" << endl;
@@ -43,7 +43,7 @@ int main(){
     cout << "position update done" << endl;
     avg_comp += elapsed_time();
   }
-  bg.display();
+  //bg.display();
 
   cout << "Average construction time: " << avg_constr/time_steps << endl;
   cout << "Average center of mass calculation time: " << avg_com/time_steps << endl;
