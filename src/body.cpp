@@ -88,3 +88,12 @@ void body::gravity(const body* b){
   accelX += ax;
   accelY += ay;
 }
+
+void body::setPos(long double xpos, long double ypos){
+  x = xpos;
+  y = ypos;
+}
+
+void body::setMass(long double nm){
+  m = nm;
+}
