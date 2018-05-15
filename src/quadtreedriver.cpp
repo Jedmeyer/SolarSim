@@ -41,14 +41,14 @@ int main(){
     
     start_timer();
 
-    /*this part is a little complex: basically
+    /*This part is a little complex: basically
     we have to pass 3 things:
-    1. The method the thread is using as a function
+    1. The address method the thread is using as a function
     2. The identifier/object that the thread is performing it on.
     3+: Any Arguements used for the method.*/
     for(int j = 0; j < bg.getSize(); ++j){
       t[j] = thread(&quadtree::barnesHut, //Address of Method...
-                            &q1, //Object
+                            &q1, //Object's Address
                             bg[j]); //Method's arguement 1.
     }
 
