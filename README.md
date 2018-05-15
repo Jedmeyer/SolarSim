@@ -3,10 +3,15 @@ Barnes-Hut nlogn n-body simulation.
 This method changes computational time from n^2 to n logn.
 
 To Run:
+
 In the source folder run:
+
 	make gen
+
 	./gen
+
 this will prompt you first for the number of objects and second for the square dimensional range of the objects. Choose a number of objects up to 1million (though this will take some time), and a range **specify the range later**. This will output n bodies to random x,y positions with random mass into a textfile called output.txt.
+
 Next, run:
 	make
 	./quadtreedriver < output.txt > ../output/_filename_.txt
