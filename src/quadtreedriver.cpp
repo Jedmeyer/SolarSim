@@ -6,7 +6,7 @@ using namespace std;
 int main(){
   
   bodygroup bg(cin);
-  int time_steps = 10;
+  int time_steps = 100;
   double avg_constr = 0;
   double avg_com = 0;
   double avg_comp = 0;
@@ -43,7 +43,7 @@ int main(){
     cout << "position update done" << endl;
     avg_comp += elapsed_time();
   }
-  //bg.display();
+  bg.display();
 
   cout << "Average construction time: " << avg_constr/time_steps << endl;
   cout << "Average center of mass calculation time: " << avg_com/time_steps << endl;
