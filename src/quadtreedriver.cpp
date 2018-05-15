@@ -1,6 +1,7 @@
 #include <iostream>
 #include "quadtree.h"
 #include "elapsed_time.h"
+#include <thread> 
 using namespace std;
 
 int main(){
@@ -30,10 +31,35 @@ int main(){
     
     //this is where we parallelize
     //update the acclerations of all bodies
+    
+    //Thread container t
+    thread t[(int)bg.getSize()];
+
+
+    //LAUNCH?! I SAID LUNCH not LAUNCH!
+    //tl dr; Launch the THREADS (NUKES)
+    
     start_timer();
-    for(int j = 0; j < bg.getSize(); j++){
-      q1.barnesHut(bg[j]);  
+
+    /*this part is a little complex: basically
+    we have to pass 3 things:
+    1. The method the thread is using as a function
+    2. The identifier/object that the thread is performing it on.
+    3+: Any Arguements used for the method.*/
+    for(int j = 0; j < bg.getSize(); ++j){
+      t[j] = thread(&quadtree::barnesHut, //Address of Method...
+                            &q1, //Object
+                            bg[j]); //Method's arguement 1.
     }
+
+    //Threads quickly destroyed
+    //Reserved only for barnesHut
+    for(int j = 0; j < bg.getSize(); ++j){
+      t[j].join();
+    }
+
+    //Threads not longer in use.
+
     cout << "barnes hut done" << endl;
     //once all accels are computed, then
     //we can update positions
