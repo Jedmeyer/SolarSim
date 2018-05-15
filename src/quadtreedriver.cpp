@@ -12,6 +12,7 @@ int main(){
   double avg_com = 0;
   double avg_comp = 0;
   
+  
   for(int i = 0; i < time_steps; i++){
     //bg.display();
     //cout << endl;
