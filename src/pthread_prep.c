@@ -70,6 +70,7 @@ void thread_function(){
 			//The waiting thread to start, and unlock the for another thread.
 			pthread_cond_wait(&qEmpty,&qlock);
 			if(endthreads){
+				pthread_mutex_unlock(&qlock);
 				printf("Thread ended.\n");
 				return;
 			}
@@ -85,6 +86,7 @@ void thread_function(){
 		//since things can now access the queue, let's just do our fecking math.
 		q1.barnesHut(b);
 		if(endthreads){
+			pthread_mutex_unlock(&qlock);
 			printf("Thread ended.\n");
 			return;
 		}

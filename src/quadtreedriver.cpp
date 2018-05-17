@@ -50,9 +50,15 @@ int main(){
     avg_com += elapsed_time();
     cout << "CoM calc done" << endl;
     
+
+
+    //No adding to the Q on lock!
+    pthread_mutex_lock(&qlock);
     for(int i = 0; i < ((int)bg.getSize()); ++i){
       q_bodies.push(bg[i]);
     }
+    pthread_mutex_unlock(&qlock);
+    
     start_timer(); 
 
     //Tell threads: "Go"
@@ -85,10 +91,10 @@ int main(){
   //Once timesteps are over: set global bool to
   //"end threads"
   endthreads = 1;
-  for(int i =0; i <8; ++i)
-    pthread_cond_broadcast(&qEmpty);
+  pthread_cond_broadcast(&qEmpty);
+
   //Threads quickly destroyed
-  for(int j = 0; j < bg.getSize(); ++j){
+  for(int j = 0; j < 8; ++j){
     thandle[j].join();
   }
   
