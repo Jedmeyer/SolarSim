@@ -29,7 +29,7 @@ Circle::Circle(){
 }
 
 Circle::Circle(istream &is){
-  rad = 15;
+  rad = 2;
   is >> xpos;
   is >> ypos;
   r = 255;

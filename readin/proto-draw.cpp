@@ -186,7 +186,7 @@ void init(void)
 void init_gl_window()
 {
   ct = 0;
-  loadCircs("circs.txt");
+  loadCircs("../output/test1.txt");
   char *argv[] = {programName};
   int argc = sizeof(argv) / sizeof(argv[0]);
   glutInit(&argc, argv);

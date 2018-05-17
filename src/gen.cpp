@@ -25,8 +25,9 @@ long double** gen(int n,int dist){
 }
 
 
-void printer(long double ** e, int n){
+void printer(long double ** e, int n,long double dim){
   ofstream of("output.txt");
+  of << dim << endl;
   of << n << endl;
   for(int i = 0; i < n; i++){
     for(int j = 0; j < 5; j++)
@@ -46,8 +47,8 @@ int main(){
   cout << endl;
 
   long double** out = gen(num_vert, dist);
-
-  printer(out,num_vert);
+  
+  printer(out,num_vert,dist);
 
   return 0;
 }
