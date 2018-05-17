@@ -85,7 +85,8 @@ int main(){
   //Once timesteps are over: set global bool to
   //"end threads"
   endthreads = 1;
-  pthread_cond_broadcast(&qEmpty);
+  for(int i =0; i <8; ++i)
+    pthread_cond_broadcast(&qEmpty);
   //Threads quickly destroyed
   for(int j = 0; j < bg.getSize(); ++j){
     thandle[j].join();
