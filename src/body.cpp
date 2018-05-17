@@ -73,8 +73,11 @@ void body::setAccel(long double ax, long double ay){
   accelY = ay;
 }
 
-void body::gravity(const body* b){
+void body::gravity(body* b){
   long double r = distance(b);
+  if(r == 0){
+    r = 0.01;
+  }
   long double a = G * b->getMass() / (r*r);
 
   //I believe this subtraction is in the correct order.
@@ -87,4 +90,13 @@ void body::gravity(const body* b){
   
   accelX += ax;
   accelY += ay;
+}
+
+void body::setPos(long double xpos, long double ypos){
+  x = xpos;
+  y = ypos;
+}
+
+void body::setMass(long double nm){
+  m = nm;
 }

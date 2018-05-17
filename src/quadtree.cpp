@@ -7,8 +7,8 @@ quadtree::quadtree(){
   parent  = false;
   contained = NULL;
   children = NULL;
-  left = 0; right = 1080;
-  top = 1080; bottom = 0;
+  left = 0; right = 100000;
+  top = 100000; bottom = 0;
 }
 
 quadtree::quadtree(long double l, long double r, long double t, long double b, body* c):
@@ -40,14 +40,44 @@ void quadtree::clear(){
   delete[] comVals; 
 }
 
+//currently this only works when the windows is the default size of 1080 x 1080
+bool quadtree::outOfBounds(body* i){
+  if(i->getX() > 1080 || i->getX() < 0 || i->getY() > 1080 || i->getY() < 0)
+    return true;
+
+  return false;
+}
+
 void quadtree::insert(body* i){
+  //cout << "quadrant: " << whichChild(i) << endl;
+  //cout << "dims: " << left << " " << right << " " << bottom << " " << top << endl;
+  /*cout << "contained: " << endl;
+  if(contained != NULL){
+    cout << contained << endl;
+    contained->display();
+  }
+  cout << "inserting: " << endl << i << endl;
+  i->display();
+  */
+  if(outOfBounds(i))
+    return;
+  if(contained != NULL) { 
+    if(i->getX() == contained->getX() && i->getY() == contained->getY()){
+      return;
+    }
+  }  
+
   if(parent){
-    cout << "is parent" << endl;
+    //cout << "is parent" << endl;
     this->children[whichChild(i)]->insert(i);
   }
- 
+   
   else if(!parent && contained!=NULL){
-    cout << "not parent and something inside" << endl;
+    /*if((abs(contained->getX() - i->getX()) < 1) && (abs(contained->getY() - i->getY()) < 1)){
+      i->setPos(i->getX()+1, i->getY()+1);
+      cout << "calling if" << endl;
+    }*/
+    //cout << "not parent and something inside" << endl;
     this->children = new quadtree*[4];
     long double midX = (this->left + this->right)/2.0;
     long double midY = (this->top + this->bottom)/2.0;
@@ -60,15 +90,17 @@ void quadtree::insert(body* i){
     this->children[3] = new quadtree(midX,right,midY,bottom,NULL);
     this->children[3]->setTheta(theta);
     parent = true;
-    this->children[whichChild(contained)]->insert(contained);
+    children[whichChild(contained)]->insert(contained);
     contained = NULL;
-    cout << "inserted child" << endl;
-    this->children[whichChild(i)]->insert(i);
+    //cout << "inserted child" << endl;
+    children[whichChild(i)]->insert(i);//getting stuck in a loop where this calls the original even though they're not close
+    //try printing zone dims.
+    //cout << "inserted incoming node" << endl;
     return;
   } 
 
   else if(!parent && contained == NULL){
-    cout << "not parent and nothing inside" << endl;
+    //cout << "not parent and nothing inside" << endl;
     contained = i;
     return;
   }
@@ -76,7 +108,7 @@ void quadtree::insert(body* i){
 
 void quadtree::insert(bodygroup* g){
   for(int i = 0; i < g->getSize(); i++){
-    cout << "insert_i=" << i << endl;
+    //cout << "insert_i=" << i << endl;
     this->insert((*g)[i]);  
   }
 }
@@ -90,12 +122,14 @@ int quadtree::whichChild(body* b){
 
   if(xVal >= midX && yVal >= midY)
     return 0;
-  else if(xVal < midX && yVal >= midY)
+  else if(xVal <= midX && yVal >= midY)
     return 1;
-  else if(xVal < midX && yVal < midY)
+  else if(xVal <= midX && yVal <= midY)
     return 2;
-  else if(xVal >= midX && yVal < midY)
+  else if(xVal >= midX && yVal <= midY)
     return 3;
+  cout << endl;  
+  b->display(); 
   cout << "whichChild returning -1" << endl;
   //if none of the if conditions have been called, something is wrong
   //so we want to return something that will generate a recognizable error.

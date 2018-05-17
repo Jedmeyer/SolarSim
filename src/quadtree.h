@@ -28,6 +28,7 @@ class quadtree{
     //quadtree(const bodygroup&);//not working and I dont think we'll need it.
     ~quadtree();
 
+    bool outOfBounds(body*);
     void insert(body*);
     void insert(bodygroup*);
 

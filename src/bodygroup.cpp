@@ -4,7 +4,7 @@
 bodygroup::bodygroup(){
   comX = 0;
   comY = 0;
-  minX = minY = maxX= maxY = NULL;
+  //minX = minY = maxX= maxY = NULL;
   total_mass = 0;
   num_bodies=0;
   bodies = NULL;
@@ -16,7 +16,7 @@ bodygroup::bodygroup(istream& in){
   bodies=new body*[num_bodies];
   for(int i = 0; i < num_bodies; i++){
     bodies[i]=(new body(in));
-    
+    /*
     if((this->minX==NULL)||(this->bodies[i]->getX() < this->minX->getX()))
       this->minX = this->bodies[i];
     if((this->maxX==NULL)||(this->bodies[i]->getX() > this->maxX->getX()))
@@ -25,7 +25,7 @@ bodygroup::bodygroup(istream& in){
       this->minY = this->bodies[i];
     if((this->maxY==NULL)||(this->bodies[i]->getY() > this->maxY->getY()))
       this->maxY = this->bodies[i];
-    
+    */
     total_mass+=bodies[i]->getMass();
   }
 }
@@ -53,7 +53,7 @@ void bodygroup::clear(){
   //cout << "here" << endl;
   delete[] bodies;
   bodies = NULL;
-  minX = minY = maxX = maxY = NULL;
+  //minX = minY = maxX = maxY = NULL;
   num_bodies = 0;
   total_mass = 0;
   comX = comY = 0;
@@ -96,7 +96,7 @@ bodygroup& bodygroup::operator=(const bodygroup& b){
   bodies = new body*[num_bodies];
   for(int i = 0; i < num_bodies; i++){
     bodies[i] = new body(b[i]);
-
+    /*
     if((this->minX==NULL)||(this->bodies[i]->getX() < this->minX->getX()))
       this->minX = this->bodies[i];
     if((this->maxX==NULL)||(this->bodies[i]->getX() > this->maxX->getX()))
@@ -105,7 +105,7 @@ bodygroup& bodygroup::operator=(const bodygroup& b){
       this->minY = this->bodies[i];
     if((this->maxY==NULL)||(this->bodies[i]->getY() > this->maxY->getY()))
       this->maxY = this->bodies[i];
-    
+    */
     total_mass+=bodies[i]->getMass();
   }
   return (*this);
