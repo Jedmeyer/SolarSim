@@ -20,6 +20,7 @@ class Circle {
   Circle(istream &is);
 
   void draw();
+  void sendGLColor();
 };
 
 #endif //_Circle_
