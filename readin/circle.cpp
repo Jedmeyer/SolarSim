@@ -1,11 +1,6 @@
 #include "circle.h"
 #include <GL/glut.h>
-#include <math.h>
 using namespace std;
-
-void Circle::sendGLColor() {
-  glColor3f(r/255., g/255., b/255.);
-}
 
 void Circle::draw() {
   const float PI = 3.14159265358979f;
@@ -29,7 +24,7 @@ Circle::Circle(){
 }
 
 Circle::Circle(istream &is){
-  rad = 2;
+  rad = 30;
   is >> xpos;
   is >> ypos;
   r = 255;

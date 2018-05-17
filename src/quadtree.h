@@ -24,7 +24,6 @@ class quadtree{
 
   public:
     quadtree();
-    quadtree(long double);
     quadtree(long double l, long double r, long double t, long double b, body* c);
     //quadtree(const bodygroup&);//not working and I dont think we'll need it.
     ~quadtree();
@@ -41,7 +40,7 @@ class quadtree{
     float getTheta() { return theta; }
     void setTheta(float t) { theta = t; }
     
-    long double getDim() { return top; }
+    long double getDim() { return ((right-left) + (top-bottom))/2; }
 
     long double getComX() { return comX; }
     long double getComY() { return comY; }

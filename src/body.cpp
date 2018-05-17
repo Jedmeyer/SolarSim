@@ -53,7 +53,9 @@ long double body::distance(const body* b){
 }
 
 void body::display() {
-  cout << x << " " << y << " " << sqrt(velX*velX + velY*velY);
+  cout << "(x,y)= (" << x << "," << y << ")"<<endl;
+  cout << "mass = " << m << endl;
+  cout << "(dx,dy)= (" << velX << "," << velY << ")"<<endl;
   cout << endl;
 }
 
