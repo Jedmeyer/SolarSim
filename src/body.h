@@ -5,7 +5,7 @@
 #include <cmath>
 using namespace std;
 
-#define G 6.673*pow(10,-9)
+#define G 6.673*pow(10,-10)
 
 class body {
   protected:

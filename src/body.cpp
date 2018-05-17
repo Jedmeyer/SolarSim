@@ -6,7 +6,7 @@ body::body(){
   x = y = m = velX = velY = accelX = accelY = 0; 
 }
 
-body::body(istream &is) {//assuming no starting acceleration
+body::body(istream &is) {
   is >> x >> y >> m >> velX >> velY;
   accelX = 0;
   accelY = 0;
