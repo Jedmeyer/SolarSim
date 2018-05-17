@@ -1,0 +1,52 @@
+#ifndef _Shape_
+#define _Shape_
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+struct Color {
+  float r, g, b;
+
+  Color(float a, float c, float d) {
+    r = a;
+    g=c;
+    b=d;
+  }
+
+  Color() {
+    r = g = b = 254.;
+  }
+
+  Color(const Color &c) {
+    r = c.r;
+    g = c.g;
+    b = c.b;
+  }
+
+  void display()
+  {     
+    cout << r << " " << g << " " << b << endl;
+  }
+};
+
+struct Vec {
+  double x, y;
+  Vec(){
+    x = y = 0;
+  }
+  Vec(double x0, double y0){
+    x = x0;
+    y = y0;
+  }
+  Vec(const Vec &v){
+    x = v.x;
+    y = v.y;
+  }
+  Vec(istream &is){
+    is >> x;
+    is >> y;
+  }
+  void display(){
+    cout << x << " " << y << endl;
+  }
+};

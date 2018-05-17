@@ -72,11 +72,11 @@ void bodygroup::updateCoM(){
 }
 
 void bodygroup::display(){
-  //cout << "<--- bodygroup --->" << endl;
+  cout << "<--- bodygroup --->" << endl;
   for(int i = 0; i < num_bodies; i++){
     bodies[i]->display();
   }
-  //cout << "<--- end bodygroup --->" << endl;
+  cout << "<--- end bodygroup --->" << endl;
 }
 
 body* bodygroup::operator[] (int n) const{
