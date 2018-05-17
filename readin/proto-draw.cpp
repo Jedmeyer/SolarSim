@@ -8,6 +8,7 @@ using namespace std;
 #endif
 #include<math.h>
 #include<stdlib.h>
+#include<string.h>
 #include "circle.h"
 //#include "Rectangle.h"
 
@@ -18,15 +19,47 @@ bool mouseIsDragging = false;
 Circle ** ciroc;
 
 int WIDTH = 720;  // width of the user window (640 + 80)
-int HEIGHT = 540;  // height of the user window (480 + 60)
+int HEIGHT = 720;  // height of the user window (480 + 60)
 char programName[] = "proto-draw";
-int ct;
+int ct = 0;
+int numFrames;
+int numCircs;
+int dampener= 0;
+int DAMPENER;
 
+//necessary definitions for the pause/play button
+bool pausePress = false, overPause = false;
+float pausePos[] = {(int)(WIDTH/2)-26, HEIGHT-52, 52, 52};
+char unpausedtext[] = "||";//text displayed on the button if simulation is not paused
+char pausedtext[] = ">";//text displayed on button if simulation is paused
+char * pausebuttonname = unpausedtext; //pointer to change the text displayed on the pause button when it is clicked
+int pauseobject = 0;
+
+//draw text function to label buttons
+void drawText(float x, float y, const char *text) {
+  glRasterPos2f( x, y );
+  int length = strlen(text);
+  for (int i = 0; i < length; i++)
+    glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, text[i]);
+}
+//draws a rectangle, giver coords of upper left corner, width, height
+void drawBox(float x, float y, float width, float height) {
+  glBegin(GL_POLYGON);
+  glVertex2f(x, y);
+  // upper left
+  glVertex2f(x, y + height);
+  // lower left
+  glVertex2f(x + width, y + height);  // lower right
+  glVertex2f(x + width, y);  // upper right
+  glEnd();
+}
+
+void drawBox(float *pos) {
+  drawBox(pos[0], pos[1], pos[2], pos[3]);
+}
 
 void loadCircs(const char* filename)
 {
-  int numFrames;
-  int numCircs;
   ifstream g(filename);
   if(!g.good()) {
     cerr << "Warning: Unable to open " << filename << ", ignoring it. " << endl;
@@ -62,12 +95,27 @@ void drawWindow()
       colorButtonBackground[j]->draw();
       colorButtonForeground[j]->draw();
     }
-  */  
-  for (int i = 0; i<10; i++)
+  */
+  
+  for (int i = 0; i<numCircs; i++)
     ciroc[ct][i].draw();
-  ct++;
-  if (ct > 9)
-    ct = 0;
+  if (dampener%DAMPENER == 0) {
+    if (ct < numFrames-2)
+      if (pauseobject == 1)
+	ct++;
+  }
+    if (dampener == DAMPENER)
+      dampener = 0;
+    dampener++;
+
+  //Draws the Pause button
+  if (pausePress) glColor3f(.75, 1., .4);
+  else if (overPause) glColor3f(.5, .75, .2);
+  else glColor3f(.5,.5,.5);
+  drawBox(pausePos);
+  glColor3f(1., 0., 0.);
+  drawText((int)(WIDTH/2)-5, HEIGHT-20, pausebuttonname);
+  
   // tell the graphics card that we're done-- go ahead and draw!
   //   (technically, we are switching between two color buffers...)
   glutSwapBuffers();
@@ -113,35 +161,33 @@ void reshape(int w, int h)
    glLoadIdentity();
    glOrtho(0., WIDTH-1, HEIGHT-1, 0., -1.0, 1.0);
 }
-/*
+bool onPause(int x, int y) {
+  return x >= pausePos[0] && y >= pausePos[1] && x <=pausePos[0] + pausePos[2] && y <=pausePos[1] + pausePos[3];
+}
+
 // the mouse function is called when a mouse button is pressed down or released
 void mouse(int button, int state, int x, int y)
 {
   if ( GLUT_LEFT_BUTTON == button ) {
     if ( GLUT_DOWN == state ) {
-      mouseIsDragging = true;
       // the user just pressed down on the mouse-- do something
-      if(currentMode==CIRCLE)
-	{
-	  handleColorButtonPress(x,y);
-	  userShape[numUserShapes] = new Circle;
-	  userShape[numUserShapes]->setPosition(x,y);
-	  userShape[numUserShapes]->setColor(currentColor);
-	  numUserShapes++;
-	}
-      else if(currentMode==RECTANGLE)
-	{
-	  handleColorButtonPress(x,y);
-	  userShape[numUserShapes] = new Rectangle;
-	  userShape[numUserShapes]->setPosition(x,y);
-	  userShape[numUserShapes]->setColor(currentColor);
-	  numUserShapes++;
-	}
-    } else { 
+      if (onPause(x, y) ) pausePress = true;//the next three buttons are only clickable in the simulation window
+      else pausePress = false;
+
+    } 
+    else { 
       // the user just let go the mouse-- do something
-      if(numUserShapes > 0)
-	userShape[numUserShapes-1]->update(x,y);
-      mouseIsDragging = false;
+      if (onPause(x, y) && pausePress) { 	if (pauseobject == 0) {
+	  pauseobject = 1;//pauses the simulation
+	  pausePress = false;
+	  pausebuttonname = pausedtext;
+	} 	
+	else {
+	  pauseobject = 0;//unpauses the simulation
+	  pausePress = false; //alternate way to note that the display is paused is by not declaring pausePress to be false unless the button is clicked again, playing the simulation. this would leave the button highlighted.
+	  pausebuttonname = unpausedtext;//switches text displayed over the pause button to note whether or not the simulation is running
+	}
+      }
     }
   } else if ( GLUT_RIGHT_BUTTON == button ) {
   }
@@ -152,14 +198,13 @@ void mouse(int button, int state, int x, int y)
 //   and gives the current location of the mouse
 void mouse_motion(int x,int y)
 {
-  if (currentMode == CIRCLE) {}
-  else if(currentMode == RECTANGLE) {}
-  if(numUserShapes > 0)
-    userShape[numUserShapes-1]->update(x,y);
+
+  if(onPause(x,y)) overPause = true;
+  else overPause = false;
   // the mouse button is pressed, and the mouse is moving....
   glutPostRedisplay();
 }
-*/
+
 // the init function sets up the graphics card to draw properly
 void init(void)
 {
@@ -186,7 +231,7 @@ void init(void)
 void init_gl_window()
 {
   ct = 0;
-  loadCircs("../output/test1.txt");
+  loadCircs("../output/test2.txt");
   char *argv[] = {programName};
   int argc = sizeof(argv) / sizeof(argv[0]);
   glutInit(&argc, argv);
@@ -199,12 +244,17 @@ void init_gl_window()
   glutDisplayFunc(drawWindow);
   glutReshapeFunc(reshape);
   glutKeyboardFunc(keyboard);
-  //glutMouseFunc(mouse);
-  //glutMotionFunc(mouse_motion);
+  glutMouseFunc(mouse);
+  glutMotionFunc(mouse_motion);
   glutMainLoop();
 }
 
 int main()
 {
+  
+  cout << "Enter Dampening Rate: ";
+  cin >> DAMPENER;
+  cout << endl;
+  
   init_gl_window();
 }

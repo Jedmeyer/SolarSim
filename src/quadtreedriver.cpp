@@ -13,15 +13,15 @@ int main(){
   double avg_constr = 0;
   double avg_com = 0;
   double avg_comp = 0;
-  bool timing = true;
+  bool timing = false;
  
   cout << time_steps << endl;
   cout << bg.getSize() << endl; 
   for(int i = 0; i < time_steps; i++){
-    //bg.display();
+    bg.display();
     //cout << endl;
     
-    cout << "step " << i << " complete." << endl;
+    //cout << "step " << i << " complete." << endl;
     start_timer();
     quadtree q1(dim);
     q1.setTheta(.5);
