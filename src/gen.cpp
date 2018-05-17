@@ -18,8 +18,8 @@ long double** gen(int n,int dist){
     pos[i][0] = rand() % dist;//xPos
     pos[i][1] = rand() % dist;//yPos
     pos[i][2] = rand() % 20000000000 + 10000000000;//mass
-    pos[i][3] = 0;//xVel
-    pos[i][4] = 0;//yVel
+    pos[i][3] = -pos[i][1] + dist/2;//xVel
+    pos[i][4] = pos[i][0] - dist/2;//yVel
   }
   return pos;  
 }
