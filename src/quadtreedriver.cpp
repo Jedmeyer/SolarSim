@@ -7,7 +7,7 @@ using namespace std;
 int main(){
   
   bodygroup bg(cin);
-  int time_steps = 10;
+  int time_steps = 100;
   double avg_constr = 0;
   double avg_com = 0;
   double avg_comp = 0;
@@ -20,7 +20,7 @@ int main(){
     cout << "step " << i << " complete." << endl;
     start_timer();
     quadtree q1;
-    q1.setTheta(1);
+    q1.setTheta(1.5);
     q1.insert(&bg);
     avg_constr+=elapsed_time();
     cout << "quadtree built" << endl;

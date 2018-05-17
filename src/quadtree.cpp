@@ -7,8 +7,8 @@ quadtree::quadtree(){
   parent  = false;
   contained = NULL;
   children = NULL;
-  left = 0; right = 1080;
-  top = 1080; bottom = 0;
+  left = 0; right = 100000;
+  top = 100000; bottom = 0;
 }
 
 quadtree::quadtree(long double l, long double r, long double t, long double b, body* c):
@@ -128,7 +128,8 @@ int quadtree::whichChild(body* b){
     return 2;
   else if(xVal >= midX && yVal <= midY)
     return 3;
-  
+  cout << endl;  
+  b->display(); 
   cout << "whichChild returning -1" << endl;
   //if none of the if conditions have been called, something is wrong
   //so we want to return something that will generate a recognizable error.

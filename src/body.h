@@ -41,7 +41,7 @@ class body {
     void setAccel(long double, long double);
     void setPos(long double, long double);
     void setMass(long double nm);
-    void gravity(const body*); 
+    void gravity(body*); 
 };
 
 #endif //_body_
