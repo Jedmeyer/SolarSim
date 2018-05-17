@@ -1,7 +1,9 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include "body.h"
 #include "quadtree.h"
-#include<pthread.h>
-#include<queue>
+#include <pthread.h>
+#include <queue>
 
 
 
@@ -51,31 +53,41 @@ void thread_function(){
 		//Initialize body *b, which will be passed to barnes hut.
 		body *b = NULL;
 
-		//Tells the wait that the Q is onto the next step
-		if(q_bodies.empty())
-			emp = 1; 
+		if(endthreads){
+			printf("Thread ended.\n");
+			return;
+		}
 
 		//Locks q_bodies access. Also prevents other threads from working on a empty queue.
 		pthread_mutex_lock(&qlock);
 
+		//Tells the wait that the Q is onto the next step
 		//Wait if Q is empty
-		while(emp){
+		while(q_bodies.empty()){
 			//First signal the main thread to start updating.
 			pthread_cond_signal(&nextstep);
 			//A Broadcast will be sent when the next timestep is started, allowing
 			//The waiting thread to start, and unlock the for another thread.
 			pthread_cond_wait(&qEmpty,&qlock);
-			emp = 0;
+			if(endthreads){
+				printf("Thread ended.\n");
+				return;
+			}
+
 		}
 
 		b = q_bodies.front();
+		
 		//Pop it and (un)lock...
 		q_bodies.pop();
+
 		pthread_mutex_unlock(&qlock);
 		//since things can now access the queue, let's just do our fecking math.
 		q1.barnesHut(b);
-		if(endthreads)
+		if(endthreads){
+			printf("Thread ended.\n");
 			return;
+		}
 		
 
 	}

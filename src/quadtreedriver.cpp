@@ -62,7 +62,9 @@ int main(){
   
     //Need to wait for the barnes hut to be done!
     pthread_mutex_lock(&qstep);
-    pthread_cond_wait(&nextstep, &qstep);
+    while(!q_bodies.empty()){
+      pthread_cond_wait(&nextstep,&qstep);
+    }
     pthread_mutex_unlock(&qstep);
     //Wait for next step broadcast?
 
@@ -83,15 +85,20 @@ int main(){
   //Once timesteps are over: set global bool to
   //"end threads"
   endthreads = 1;
+  pthread_cond_broadcast(&qEmpty);
   //Threads quickly destroyed
-  for(int j = 0; j < bg.getSize(); ++j)
+  for(int j = 0; j < bg.getSize(); ++j){
     thandle[j].join();
+  }
   
 
   cout << "Average construction time: " << avg_constr/time_steps << endl;
   cout << "Average center of mass calculation time: " << avg_com/time_steps << endl;
   cout << "Average BH computations: " << avg_comp/time_steps << endl;
-
+  pthread_mutex_destroy(&qlock);
+  pthread_cond_destroy(&qEmpty);
+  pthread_mutex_destroy(&qstep);
+  pthread_cond_destroy(&nextstep);
   
   return 0;
 
