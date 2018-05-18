@@ -34,6 +34,7 @@ int main(){
     1. The address method the thread is using as a function
     2. The identifier/object that the thread is performing it on.
     3+: Any Arguements used for the method.*/
+  cout << time_steps << endl << bg.getSize() << endl;
   for(int j = 0; j < NUMTHREADS; ++j){
     thandle[j] = thread(&thread_function); //Address of method/function...
   }
