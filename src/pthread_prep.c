@@ -54,7 +54,6 @@ void thread_function(){
 		body *b = NULL;
 
 		if(endthreads){
-			printf("Thread ended.\n");
 			return;
 		}
 
@@ -71,7 +70,6 @@ void thread_function(){
 			pthread_cond_wait(&qEmpty,&qlock);
 			if(endthreads){
 				pthread_mutex_unlock(&qlock);
-				printf("Thread ended.\n");
 				return;
 			}
 
@@ -87,7 +85,6 @@ void thread_function(){
 		q1.barnesHut(b);
 		if(endthreads){
 			pthread_mutex_unlock(&qlock);
-			printf("Thread ended.\n");
 			return;
 		}
 		
