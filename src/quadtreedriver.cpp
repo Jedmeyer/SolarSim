@@ -51,12 +51,10 @@ int main(){
     q1.setTheta(1.5);
     q1.insert(&bg);
     avg_constr+=elapsed_time();
-    cout << "quadtree built" << endl;
  
     start_timer();
     q1.calcCOM();
     avg_com += elapsed_time();
-    cout << "CoM calc done" << endl;
     
 
 
@@ -91,7 +89,6 @@ int main(){
     for(int j = 0; j < bg.getSize(); j++){
       bg[j]->update();
     }
-    cout << "position update done" << endl;
     avg_comp += elapsed_time();
   
   bg.display();
