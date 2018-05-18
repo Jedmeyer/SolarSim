@@ -47,7 +47,6 @@ void thread_function(){
 
 
 */
-	int emp = 0;
 	while(1){
 
 		//Initialize body *b, which will be passed to barnes hut.
@@ -67,12 +66,12 @@ void thread_function(){
 			pthread_cond_signal(&nextstep);
 			//A Broadcast will be sent when the next timestep is started, allowing
 			//The waiting thread to start, and unlock the for another thread.
-			pthread_cond_wait(&qEmpty,&qlock);
 			if(endthreads){
 				pthread_mutex_unlock(&qlock);
+			    pthread_cond_broadcast(&qEmpty);
 				return;
 			}
-
+			pthread_cond_wait(&qEmpty,&qlock);
 		}
 
 		b = q_bodies.front();
@@ -85,6 +84,7 @@ void thread_function(){
 		q1.barnesHut(b);
 		if(endthreads){
 			pthread_mutex_unlock(&qlock);
+		    pthread_cond_broadcast(&qEmpty);
 			return;
 		}
 		
