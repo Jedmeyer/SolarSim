@@ -1,5 +1,5 @@
 quadtreedriver: quadtreedriver.o quadtree.o bodygroup.o body.o
-	g++ -g -Wall -std=c++11 -o quadtreedriver quadtreedriver.o quadtree.o bodygroup.o body.o
+	g++ -g -Wall -std=c++11 -o quadtreedriver quadtreedriver.o quadtree.o bodygroup.o body.o -lpthread
 
 quadtreedriver.o: quadtreedriver.cpp quadtree.h bodygroup.h bodygroup.h
 	g++ -g -Wall -std=c++11 -c quadtreedriver.cpp
