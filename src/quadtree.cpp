@@ -11,15 +11,6 @@ quadtree::quadtree(){
   top = 100000; bottom = 0;
 }
 
-quadtree::quadtree(long double dim){
-  theta = 1;
-  parent  = false;
-  contained = NULL;
-  children = NULL;
-  left = 0; right = dim;
-  top = dim; bottom = 0;
-}
-
 quadtree::quadtree(long double l, long double r, long double t, long double b, body* c):
   left(l), right(r), top(t), bottom(b)
 {
@@ -55,7 +46,7 @@ void quadtree::clear(){
 
 //currently this only works when the windows is the default size of 1080 x 1080
 bool quadtree::outOfBounds(body* i){
-  if(i->getX() > right || i->getX() < left || i->getY() > top || i->getY() < bottom)
+  if(i->getX() > 1080 || i->getX() < 0 || i->getY() > 1080 || i->getY() < 0)
     return true;
 
   return false;
