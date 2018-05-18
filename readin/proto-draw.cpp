@@ -29,11 +29,17 @@ int DAMPENER;
 
 //necessary definitions for the pause/play button
 bool pausePress = false, overPause = false;
-float pausePos[] = {(int)(WIDTH/2)-26, HEIGHT-52, 52, 52};
+float pausePos[] = {(int)(WIDTH/2)-52, HEIGHT-52, 52, 52};
 char unpausedtext[] = "||";//text displayed on the button if simulation is not paused
 char pausedtext[] = ">";//text displayed on button if simulation is paused
 char * pausebuttonname = unpausedtext; //pointer to change the text displayed on the pause button when it is clicked
 int pauseobject = 0;
+
+//reset button
+bool resetPress = false, overReset = false;
+float resetPos[] = {(int)(WIDTH/2)+4, HEIGHT-52, 52, 52};
+char resetText[] = "R";
+
 
 //draw text function to label buttons
 void drawText(float x, float y, const char *text) {
@@ -114,7 +120,15 @@ void drawWindow()
   else glColor3f(.5,.5,.5);
   drawBox(pausePos);
   glColor3f(1., 0., 0.);
-  drawText((int)(WIDTH/2)-5, HEIGHT-20, pausebuttonname);
+  drawText((int)(WIDTH/2)-31, HEIGHT-20, pausebuttonname);
+
+  //Draws the reset button
+  if (resetPress) glColor3f(.75, 1., .4);
+  else if (overReset) glColor3f(.5, .75, .2);
+  else glColor3f(.5, .5, .5);
+  drawBox(resetPos);
+  glColor3f(1., 0., 0.);
+  drawText((int)(WIDTH/2)+26, HEIGHT-20, resetText);
   
   // tell the graphics card that we're done-- go ahead and draw!
   //   (technically, we are switching between two color buffers...)
@@ -165,6 +179,10 @@ bool onPause(int x, int y) {
   return x >= pausePos[0] && y >= pausePos[1] && x <=pausePos[0] + pausePos[2] && y <=pausePos[1] + pausePos[3];
 }
 
+bool onReset(int x, int y) {
+  return x >= resetPos[0] && y >= resetPos[1] && x <=resetPos[0] + resetPos[2] && y <=resetPos[1] + resetPos[3];
+}
+
 // the mouse function is called when a mouse button is pressed down or released
 void mouse(int button, int state, int x, int y)
 {
@@ -173,6 +191,8 @@ void mouse(int button, int state, int x, int y)
       // the user just pressed down on the mouse-- do something
       if (onPause(x, y) ) pausePress = true;//the next three buttons are only clickable in the simulation window
       else pausePress = false;
+      if (onReset(x, y) ) resetPress = true;
+      else resetPress = false;
 
     } 
     else { 
@@ -188,6 +208,10 @@ void mouse(int button, int state, int x, int y)
 	  pausebuttonname = unpausedtext;//switches text displayed over the pause button to note whether or not the simulation is running
 	}
       }
+      if (onReset(x, y) && resetPress) {
+	ct = 0;
+	resetPress = false;
+      }
     }
   } else if ( GLUT_RIGHT_BUTTON == button ) {
   }
@@ -201,6 +225,8 @@ void mouse_motion(int x,int y)
 
   if(onPause(x,y)) overPause = true;
   else overPause = false;
+  if(onReset(x,y)) overReset = true;
+  else overReset = false;
   // the mouse button is pressed, and the mouse is moving....
   glutPostRedisplay();
 }
@@ -231,7 +257,7 @@ void init(void)
 void init_gl_window()
 {
   ct = 0;
-  loadCircs("../output/test2.txt");
+  loadCircs("../output/test3.txt");
   char *argv[] = {programName};
   int argc = sizeof(argv) / sizeof(argv[0]);
   glutInit(&argc, argv);
