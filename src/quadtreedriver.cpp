@@ -22,11 +22,10 @@ int main(){
 
 
   bodygroup bg(cin);
-  int time_steps = 100;
+  int time_steps = 500;
   double avg_constr = 0;
   double avg_com = 0;
   double avg_comp = 0;
-
 
   thread thandle[20]; //Max 20 threads
 
@@ -51,10 +50,12 @@ int main(){
     q1.setTheta(1.5);
     q1.insert(&bg);
     avg_constr+=elapsed_time();
+    //cout << "quadtree built" << endl;
  
     start_timer();
     q1.calcCOM();
     avg_com += elapsed_time();
+    //cout << "CoM calc done" << endl;
     
 
 
@@ -64,7 +65,7 @@ int main(){
       q_bodies.push(bg[i]);
       pthread_mutex_unlock(&qlock);
     }
-
+    
     start_timer(); 
 
     //Tell threads: "Go"
@@ -83,12 +84,12 @@ int main(){
 
 
 
-
     //once all accels are computed, then
     //we can update positions
     for(int j = 0; j < bg.getSize(); j++){
       bg[j]->update();
     }
+    //cout << "position update done" << endl;
     avg_comp += elapsed_time();
   
   bg.display();
