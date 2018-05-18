@@ -3,6 +3,9 @@
 #include "elapsed_time.h"
 #include <thread> 
 #include "pthread_prep.c"
+
+#define NUMTHREADS 4
+
 using namespace std;
 
 int main(){
@@ -13,6 +16,8 @@ int main(){
   pthread_mutex_init(&qstep, NULL);
   pthread_cond_init (&nextstep,NULL);
 
+  long double dim = 0;
+  cin >> dim;
 
   bodygroup bg(cin);
   int time_steps = 30;
@@ -20,7 +25,7 @@ int main(){
   double avg_com = 0;
   double avg_comp = 0;
 
-  thread thandle[8];
+  thread thandle[20]; //Max 20 threads
 
 
 
@@ -29,7 +34,7 @@ int main(){
     1. The address method the thread is using as a function
     2. The identifier/object that the thread is performing it on.
     3+: Any Arguements used for the method.*/
-  for(int j = 0; j < 8; ++j){
+  for(int j = 0; j < NUMTHREADS; ++j){
     thandle[j] = thread(&thread_function); //Address of method/function...
   }
 
@@ -53,11 +58,11 @@ int main(){
 
 
     //No adding to the Q on lock!
-    pthread_mutex_lock(&qlock);
     for(int i = 0; i < ((int)bg.getSize()); ++i){
+      pthread_mutex_lock(&qlock);
       q_bodies.push(bg[i]);
+      pthread_mutex_unlock(&qlock);
     }
-    pthread_mutex_unlock(&qlock);
     
     start_timer(); 
 
