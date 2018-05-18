@@ -337,7 +337,7 @@ void init(void)
 void init_gl_window()
 {
   ct = 0;
-  loadCircs("../output/highobj.txt");
+  loadCircs("../output/jasontest.txt");
   char *argv[] = {programName};
   int argc = sizeof(argv) / sizeof(argv[0]);
   glutInit(&argc, argv);
