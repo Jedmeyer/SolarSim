@@ -10,7 +10,7 @@ In the source folder run:
 
 	./gen
 
-this will prompt you first for the number of objects and second for the square dimensional range of the objects. Choose a number of objects up to 1million (though this will take some time), and a range **specify the range later**. This will output n bodies to random x,y positions with random mass into a textfile called output.txt.
+this will prompt you first for the number of objects and second for the square dimensional range of the objects. Choose a number of objects up to 1000 objects for a reasonable runtime and a zone between 100 and 1080. This will output n bodies to random x,y positions with random mass into a textfile called output.txt.
 
 Next, run:
 
@@ -22,19 +22,19 @@ where you replace _filename_ with the desired destination filename.
 
 This may or may not give feedback while running. TBD
 
-Next, feed this output into the graphics program by running:
+Next, feed this output into the graphics program in the readin folder by running. First edit the ofstream line in proto-draw.cpp to the filepath you want (or leave it as is for a predtermined calculation). Then run:
 
-	make gui
+	make proto-draw
+	
+	./proto-draw
 
-	./gui < ../output/_filename_.txt
 
-where you replace the filename that you entered.
-
-Alternatively, you can skip the first two steps and gnereate graphics output from a pre-generated example such as 
-
-	./gui < ../output/run1.txt
+Click the play button to begin, and the reset button to restart the graphical output.
 
 By:
+
 Spencer Eanes
+
 Jacob Cabbage
+
 Jason Dickmeyer
