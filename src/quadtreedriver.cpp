@@ -22,7 +22,7 @@ int main(){
 
 
   bodygroup bg(cin);
-  int time_steps = 30;
+  int time_steps = 1000000;
   double avg_constr = 0;
   double avg_com = 0;
   double avg_comp = 0;
