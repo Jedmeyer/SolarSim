@@ -105,9 +105,6 @@ int main(){
   }
   
 
-  cout << "Average construction time: " << avg_constr/time_steps << endl;
-  cout << "Average center of mass calculation time: " << avg_com/time_steps << endl;
-  cout << "Average BH computations: " << avg_comp/time_steps << endl;
   pthread_mutex_destroy(&qlock);
   pthread_cond_destroy(&qEmpty);
   pthread_mutex_destroy(&qstep);
