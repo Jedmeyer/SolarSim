@@ -30,7 +30,11 @@ quadtree::quadtree(long double l, long double r, long double t, long double b, b
 }
 
 quadtree::~quadtree(){
-  clear();
+  //Memory Leak here. We don't destruct the quadtree. Clear() is not defined, but declared!
+  
+    this->clear();
+
+
 }
 
 void quadtree::clear(){
