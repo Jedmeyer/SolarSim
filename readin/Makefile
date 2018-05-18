@@ -8,20 +8,14 @@ else
 
 endif
 
-proto-draw: proto-draw.o Shape.o Rectangle.o Circle.o
-	g++ $(OPTS) -o proto-draw proto-draw.o Shape.o Rectangle.o Circle.o $(LIBS)
+proto-draw: proto-draw.o circle.o
+	g++ $(OPTS) -o proto-draw proto-draw.o circle.o $(LIBS)
 
 proto-draw.o: proto-draw.cpp
 	g++ $(OPTS) $(MACOSX_DEFINE) -c proto-draw.cpp
 
-Circle.o: Circle.cpp Circle.h
-	g++ -g -Wall -std=c++11 -c Circle.cpp
-
-Rectangle.o: Rectangle.cpp Rectangle.h 
-	g++ -g -Wall -std=c++11 -c Rectangle.cpp
-
-Shape.o: Shape.cpp Shape.h ColorPoint2.h
-	g++ -g -Wall -std=c++11 -c Shape.cpp
+circle.o: circle.cpp circle.h
+	g++ -g -Wall -std=c++11 -c circle.cpp
 
 clean:
 	rm -f *.o proto-draw
