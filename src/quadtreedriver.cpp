@@ -15,7 +15,7 @@ int main(){
 
 
   bodygroup bg(cin);
-  int time_steps = 100;
+  int time_steps = 30;
   double avg_constr = 0;
   double avg_com = 0;
   double avg_comp = 0;
@@ -35,20 +35,20 @@ int main(){
 
   //Main Loop
   for(int i = 0; i < time_steps; i++){
-    //bg.display();
+    bg.display();
     //cout << endl;
     
-    cout << "step " << i << " complete." << endl;
+    //cout << "step " << i << " complete." << endl;
     start_timer();
     q1.setTheta(1.5);
     q1.insert(&bg);
     avg_constr+=elapsed_time();
-    cout << "quadtree built" << endl;
+    //cout << "quadtree built" << endl;
  
     start_timer();
     q1.calcCOM();
     avg_com += elapsed_time();
-    cout << "CoM calc done" << endl;
+    //cout << "CoM calc done" << endl;
     
 
 
@@ -83,7 +83,7 @@ int main(){
     for(int j = 0; j < bg.getSize(); j++){
       bg[j]->update();
     }
-    cout << "position update done" << endl;
+    //cout << "position update done" << endl;
     avg_comp += elapsed_time();
   
   bg.display();

@@ -18,15 +18,18 @@ long double** gen(int n,int dist){
     pos[i][0] = rand() % dist;//xPos
     pos[i][1] = rand() % dist;//yPos
     pos[i][2] = rand() % 20000000000 + 10000000000;//mass
-    pos[i][3] = 0;//xVel
-    pos[i][4] = 0;//yVel
+    //pos[i][3] = 0;
+    //pos[i][4] = 0;
+    pos[i][3] = (-pos[i][1] + dist/2)/100;//xVel
+    pos[i][4] = (pos[i][0] - dist/2)/100;//yVel
   }
   return pos;  
 }
 
 
-void printer(long double ** e, int n){
+void printer(long double ** e, int n,long double dim){
   ofstream of("output.txt");
+  of << dim << endl;
   of << n << endl;
   for(int i = 0; i < n; i++){
     for(int j = 0; j < 5; j++)
@@ -46,8 +49,8 @@ int main(){
   cout << endl;
 
   long double** out = gen(num_vert, dist);
-
-  printer(out,num_vert);
+  
+  printer(out,num_vert,dist);
 
   return 0;
 }
