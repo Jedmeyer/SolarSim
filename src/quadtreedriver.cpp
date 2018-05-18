@@ -19,6 +19,8 @@ int main(){
   long double dim = 0;
   cin >> dim;
 
+
+
   bodygroup bg(cin);
   int time_steps = 30;
   double avg_constr = 0;
@@ -27,6 +29,8 @@ int main(){
 
   thread thandle[20]; //Max 20 threads
 
+  cout << time_steps
+  <<endl << bg.getSize << endl;
 
 
   /*This part is a little complex: basically
@@ -83,7 +87,6 @@ int main(){
 
 
 
-    cout << "barnes hut done" << endl;
     //once all accels are computed, then
     //we can update positions
     for(int j = 0; j < bg.getSize(); j++){
