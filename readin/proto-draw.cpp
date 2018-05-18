@@ -127,7 +127,7 @@ void drawWindow()
     if (ct < numFrames-2)
       if (pauseobject == 1){
   ct++;
-  if (helper%(numFrames/100) == 0)
+  if (helper == (numFrames/100))
     sliderPos++;
   helper++;
       }
@@ -337,7 +337,7 @@ void init(void)
 void init_gl_window()
 {
   ct = 0;
-  loadCircs("../output/test4.txt");
+  loadCircs("../output/jasontest.txt");
   char *argv[] = {programName};
   int argc = sizeof(argv) / sizeof(argv[0]);
   glutInit(&argc, argv);
