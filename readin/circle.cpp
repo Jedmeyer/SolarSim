@@ -31,4 +31,5 @@ Circle::Circle(istream &is){
   g = 255;
   b = 255;
   is >> velocity;
+  g = velocity*10;
 }

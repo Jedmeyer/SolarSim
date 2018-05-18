@@ -47,14 +47,12 @@ void thread_function(){
 
 
 */
-	int emp = 0;
 	while(1){
 
 		//Initialize body *b, which will be passed to barnes hut.
 		body *b = NULL;
 
 		if(endthreads){
-			printf("Thread ended.\n");
 			return;
 		}
 
@@ -68,12 +66,12 @@ void thread_function(){
 			pthread_cond_signal(&nextstep);
 			//A Broadcast will be sent when the next timestep is started, allowing
 			//The waiting thread to start, and unlock the for another thread.
-			pthread_cond_wait(&qEmpty,&qlock);
 			if(endthreads){
-				printf("Thread ended.\n");
+				pthread_mutex_unlock(&qlock);
+			    pthread_cond_broadcast(&qEmpty);
 				return;
 			}
-
+			pthread_cond_wait(&qEmpty,&qlock);
 		}
 
 		b = q_bodies.front();
@@ -85,7 +83,8 @@ void thread_function(){
 		//since things can now access the queue, let's just do our fecking math.
 		q1.barnesHut(b);
 		if(endthreads){
-			printf("Thread ended.\n");
+			pthread_mutex_unlock(&qlock);
+		    pthread_cond_broadcast(&qEmpty);
 			return;
 		}
 		
