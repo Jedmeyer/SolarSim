@@ -29,9 +29,6 @@ int main(){
 
   thread thandle[20]; //Max 20 threads
 
-  cout << time_steps
-  <<endl << bg.getSize << endl;
-
 
   /*This part is a little complex: basically
     we have to pass 3 things:
