@@ -99,7 +99,7 @@ int main(){
   pthread_cond_broadcast(&qEmpty);
 
   //Threads quickly destroyed
-  for(int j = 0; j < 8; ++j){
+  for(int j = 0; j < NUMTHREADS; ++j){
     thandle[j].join();
   }
   
